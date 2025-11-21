@@ -1,0 +1,85 @@
+[
+  {
+    "ContainingType": "ContractMonthlyClaimSystem.Controllers.API.ClaimsApiController",
+    "Method": "GetAll",
+    "RelativePath": "api/ClaimsApi",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ContractMonthlyClaimSystem.Controllers.API.ClaimsApiController",
+    "Method": "UpdateStatus",
+    "RelativePath": "api/ClaimsApi/{id}/status",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.String",
+        "IsRequired": true
+      },
+      {
+        "Name": "dto",
+        "Type": "ContractMonthlyClaimSystem.Controllers.API.ClaimsApiController\u002BStatusUpdateDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ContractMonthlyClaimSystem.Controllers.API.ClaimsApiController",
+    "Method": "AutoApproveDetailed",
+    "RelativePath": "api/ClaimsApi/AutoApproveDetailed",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "role",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ContractMonthlyClaimSystem.Controllers.API.ClaimsApiController",
+    "Method": "AutoVerifyDetailed",
+    "RelativePath": "api/ClaimsApi/AutoVerifyDetailed",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "role",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ContractMonthlyClaimSystem.Controllers.API.ReportsApiController",
+    "Method": "LecturerSummary",
+    "RelativePath": "api/ReportsApi/LecturerSummary",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ContractMonthlyClaimSystem.Controllers.API.ReportsApiController",
+    "Method": "Summary",
+    "RelativePath": "api/ReportsApi/Summary",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  }
+]

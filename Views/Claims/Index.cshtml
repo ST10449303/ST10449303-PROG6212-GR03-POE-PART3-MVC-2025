@@ -1,0 +1,51 @@
+﻿@model IEnumerable<ContractMonthlyClaimSystem.Models.Claim>
+@{
+    ViewData["Title"] = "My Claims";
+}
+
+<h2>My Claims</h2>
+
+<table class="table table-striped table-bordered align-middle">
+    <thead class="table-light">
+        <tr>
+            <th>Title</th>
+            <th>Hours Worked</th>
+            <th>Hourly Rate</th>
+            <th>Amount</th>
+            <th>Status</th>
+            <th>Supporting Document</th>
+            <th>Submitted On</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var claim in Model)
+        {
+            var statusColor = claim.Status switch
+            {
+                "Pending" => "bg-warning",
+                "Verified" => "bg-info",
+                "Approved" => "bg-success",
+                "Rejected" => "bg-danger",
+                _ => "bg-secondary"
+            };
+            <tr>
+                <td>@claim.Title</td>
+                <td>@claim.HoursWorked</td>
+                <td>@claim.HourlyRate.ToString("C")</td>
+                <td>@claim.Amount.ToString("C")</td>
+                <td><span class="badge @(statusColor)">@claim.Status</span></td>
+                <td>
+                    @if (!string.IsNullOrEmpty(claim.FilePath))
+                    {
+                        <a href="@claim.FilePath" target="_blank" class="btn btn-sm btn-info">View</a>
+                    }
+                    else
+                    {
+                        <span class="text-muted">No file</span>
+                    }
+                </td>
+                <td>@claim.CreatedAt.ToString("dd MMM yyyy")</td>
+            </tr>
+        }
+    </tbody>
+</table>

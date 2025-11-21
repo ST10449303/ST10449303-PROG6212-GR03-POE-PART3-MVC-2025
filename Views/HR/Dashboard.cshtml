@@ -1,0 +1,63 @@
+﻿@model ContractMonthlyClaimSystem.ViewModels.HR.HRDashboardVM
+
+@{
+    ViewData["Title"] = "HR Dashboard";
+    Layout = "~/Views/Shared/HRLayout.cshtml";
+}
+
+<h2 class="mb-4">@ViewData["Title"]</h2>
+
+<div class="row g-3">
+    <div class="col-6 col-md-4 col-lg-2">
+        <div class="card text-center shadow-sm border rounded p-3">
+            <h6 class="text-muted">Total Pending</h6>
+            <p class="h3 mb-0">@Model.TotalPending</p>
+        </div>
+    </div>
+    <div class="col-6 col-md-4 col-lg-2">
+        <div class="card text-center shadow-sm border rounded p-3">
+            <h6 class="text-muted">Total Verified</h6>
+            <p class="h3 mb-0">@Model.TotalVerified</p>
+        </div>
+    </div>
+    <div class="col-6 col-md-4 col-lg-2">
+        <div class="card text-center shadow-sm border rounded p-3">
+            <h6 class="text-muted">Total Approved</h6>
+            <p class="h3 mb-0">@Model.TotalApproved</p>
+        </div>
+    </div>
+    <div class="col-6 col-md-4 col-lg-2">
+        <div class="card text-center shadow-sm border rounded p-3">
+            <h6 class="text-muted">Total Rejected</h6>
+            <p class="h3 mb-0">@Model.TotalRejected</p>
+        </div>
+    </div>
+    <div class="col-6 col-md-4 col-lg-2">
+        <div class="card text-center shadow-sm border rounded p-3">
+            <h6 class="text-muted">Total Amount</h6>
+            <p class="h3 mb-0">@Model.TotalAmount.ToString("C")</p>
+        </div>
+    </div>
+</div>
+
+<div class="mt-4">
+    <a class="btn btn-primary btn-lg"
+       href="@Url.Action("AutoApprove", "HR")"
+       data-bs-toggle="tooltip"
+       data-bs-placement="top"
+       title="Automatically approve all verified claims">
+        Auto-Approve Verified Claims
+    </a>
+</div>
+
+@section Scripts {
+    <script>
+        // Enable Bootstrap 5 tooltips
+        document.addEventListener("DOMContentLoaded", function () {
+            var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+            tooltipTriggerList.map(function (tooltipTriggerEl) {
+                return new bootstrap.Tooltip(tooltipTriggerEl);
+            });
+        });
+    </script>
+}

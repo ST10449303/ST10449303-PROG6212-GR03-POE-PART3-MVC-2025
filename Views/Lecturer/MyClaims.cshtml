@@ -1,0 +1,80 @@
+﻿@model IEnumerable<ContractMonthlyClaimSystem.ViewModels.ClaimVM>
+
+@{
+    Layout = "~/Views/Shared/LecturerLayout.cshtml";
+    ViewData["Title"] = "My Claims";
+}
+
+<h2 class="mb-3">My Claims</h2>
+<p class="text-muted">Below is a list of all claims you have submitted.</p>
+
+<table class="table table-striped table-bordered align-middle">
+    <thead class="table-dark">
+        <tr>
+            <th>Title</th>
+            <th>Hours</th>
+            <th>Rate</th>
+            <th>Total Amount</th>
+            <th>Status</th>
+            <th>Progress</th>
+            <th>Submitted On</th>
+            <th>Document</th>
+            <th>Notes</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var claim in Model)
+        {
+            // Progress percentage
+            var progressPercent = claim.Status switch
+            {
+                "Pending" => 33,
+                "Verified" => 66,
+                "Approved" => 100,
+                "Rejected" => 100,
+                _ => 0
+            };
+
+            // Progress color
+            var progressColor = claim.Status switch
+            {
+                "Pending" => "bg-warning",
+                "Verified" => "bg-info",
+                "Approved" => "bg-success",
+                "Rejected" => "bg-danger",
+                _ => "bg-secondary"
+            };
+
+            <tr>
+                <td>@(claim.Title ?? "")</td>
+                <td>@claim.HoursWorked</td>
+                <td>@claim.HourlyRate.ToString("C")</td>
+                <td>@claim.TotalAmount.ToString("C")</td>  <!-- fixed -->
+                <td><span class="badge @progressColor">@claim.Status ?? "Pending"</span></td>
+                <td>
+                    <div class="progress" style="height: 20px;">
+                        <div class="progress-bar @progressColor"
+                             role="progressbar"
+                             style="width:@progressPercent%">
+                            @progressPercent%
+                        </div>
+                    </div>
+                </td>
+                <td>@claim.DateSubmitted.ToString("dd MMM yyyy")</td>
+                <td>
+                    @if (!string.IsNullOrEmpty(claim.FilePath))
+                    {
+                        <a href="@claim.FilePath" target="_blank" class="btn btn-sm btn-primary">
+                            View
+                        </a>
+                    }
+                    else
+                    {
+                        <span class="text-muted">No file</span>
+                    }
+                </td>
+                <td>@(claim.Notes ?? "")</td>
+            </tr>
+        }
+    </tbody>
+</table>

@@ -1,0 +1,153 @@
+﻿@model ContractMonthlyClaimSystem.ViewModels.SubmitClaimVM
+@{
+    ViewData["Title"] = "Submit Claim";
+    Layout = "~/Views/Shared/LecturerLayout.cshtml";
+}
+
+<h2>Submit a New Claim</h2>
+
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success">@TempData["SuccessMessage"]</div>
+}
+
+<form asp-action="SubmitClaim" method="post" enctype="multipart/form-data" id="claimForm">
+    <!-- 🔹 All Sections in ONE Card -->
+    <div class="card mb-4">
+        <div class="card-header bg-primary text-white">
+            Claim Submission
+        </div>
+        <div class="card-body">
+            <h5 class="mb-3">Lecturer Profile Information</h5>
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <label asp-for="FullName" class="form-label">Full Name</label>
+                    <input asp-for="FullName" class="form-control" required />
+                    <span asp-validation-for="FullName" class="text-danger"></span>
+                </div>
+
+                <div class="col-md-6">
+                    <label asp-for="EmployeeID" class="form-label">Employee ID</label>
+                    <input asp-for="EmployeeID" class="form-control" required />
+                    <span asp-validation-for="EmployeeID" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <div class="col-md-4">
+                    <label asp-for="YearLevel" class="form-label">Year Level</label>
+                    <select asp-for="YearLevel" class="form-control" required>
+                        <option value="">-- Select --</option>
+                        <option>Higher Certificate 1st Year</option>
+                        <option>1st Year</option>
+                        <option>2nd Year</option>
+                        <option>3rd Year</option>
+                        <option>4th Year</option>
+                        <option>Postgraduate</option>
+                    </select>
+                    <span asp-validation-for="YearLevel" class="text-danger"></span>
+                </div>
+
+                <div class="col-md-4">
+                    <label asp-for="QualificationName" class="form-label">Qualification Name</label>
+                    <input asp-for="QualificationName" class="form-control" required />
+                    <span asp-validation-for="QualificationName" class="text-danger"></span>
+                </div>
+
+                <div class="col-md-4">
+                    <label asp-for="QualificationCode" class="form-label">Qualification Code</label>
+                    <input asp-for="QualificationCode" class="form-control" required />
+                    <span asp-validation-for="QualificationCode" class="text-danger"></span>
+                </div>
+
+                <div class="col-md-4 mt-3">
+                    <label asp-for="Faculty" class="form-label">Faculty</label>
+                    <select asp-for="Faculty" class="form-control" required>
+                        <option value="">-- Select Faculty --</option>
+                        <option>Education</option>
+                        <option>Law</option>
+                        <option>Sciences and Technology</option>
+                        <option>Arts</option>
+                        <option>Business</option>
+                        <option>Health Sciences</option>
+                    </select>
+                    <span asp-validation-for="Faculty" class="text-danger"></span>
+                </div>
+            </div>
+
+            <hr />
+            <h5 class="mb-3">Module Information</h5>
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <label asp-for="ModuleName" class="form-label">Module Name</label>
+                    <input asp-for="ModuleName" class="form-control" required />
+                    <span asp-validation-for="ModuleName" class="text-danger"></span>
+                </div>
+
+                <div class="col-md-6">
+                    <label asp-for="ModuleCode" class="form-label">Module Code</label>
+                    <input asp-for="ModuleCode" class="form-control" required />
+                    <span asp-validation-for="ModuleCode" class="text-danger"></span>
+                </div>
+            </div>
+
+            <hr />
+            <h5 class="mb-3">Claim Details</h5>
+            <div class="mb-3">
+                <label asp-for="Title" class="form-label">Claim Title</label>
+                <input asp-for="Title" class="form-control" required />
+                <span asp-validation-for="Title" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="Notes" class="form-label">Notes / Description</label>
+                <textarea asp-for="Notes" class="form-control" rows="3"></textarea>
+                <span asp-validation-for="Notes" class="text-danger"></span>
+            </div>
+
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <label asp-for="HoursWorked" class="form-label">Hours Worked</label>
+                    <input asp-for="HoursWorked" class="form-control" id="hoursWorked" required />
+                    <span asp-validation-for="HoursWorked" class="text-danger"></span>
+                </div>
+
+                <div class="col-md-6">
+                    <label asp-for="HourlyRate" class="form-label">Hourly Rate</label>
+                    <input asp-for="HourlyRate" class="form-control" id="hourlyRate" required />
+                    <span asp-validation-for="HourlyRate" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Total Amount</label>
+                <input class="form-control" id="totalAmount" readonly />
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="File" class="form-label">Supporting Document</label>
+                <input asp-for="File" type="file" class="form-control" />
+                <span asp-validation-for="File" class="text-danger"></span>
+                <div class="form-text">Allowed: .pdf, .docx, .xlsx | Max size: 5MB</div>
+            </div>
+        </div>
+
+        <div class="card-footer text-end">
+            <button type="submit" class="btn btn-success">Submit Claim</button>
+        </div>
+    </div>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script>
+        function calculateAmount() {
+            const hours = parseFloat(document.getElementById('hoursWorked').value) || 0;
+            const rate = parseFloat(document.getElementById('hourlyRate').value) || 0;
+            document.getElementById('totalAmount').value = (hours * rate).toFixed(2);
+        }
+
+        document.getElementById('hoursWorked').addEventListener('input', calculateAmount);
+        document.getElementById('hourlyRate').addEventListener('input', calculateAmount);
+    </script>
+}

@@ -1,0 +1,27 @@
+﻿@model ContractMonthlyClaimSystem.ViewModels.LecturerDashboardVM
+
+@{
+    Layout = "~/Views/Shared/LecturerLayout.cshtml";
+    ViewData["Title"] = "Lecturer Dashboard";
+}
+
+<div class="container mt-4">
+    <div class="card">
+        <div class="card-body">
+            <h2>Welcome To Contract Monthly Claim System, Lecturer!</h2>
+
+            <hr />
+
+            <div class="mb-3">
+                <span class="badge bg-warning">Pending: @Model.PendingClaims</span>
+                <span class="badge bg-success">Approved: @Model.ApprovedClaims</span>
+                <span class="badge bg-danger">Rejected: @Model.RejectedClaims</span>
+                <span class="badge bg-info">Verified: @Model.VerifiedClaims</span>
+            </div>
+
+            <p class="mt-3">
+                Use the navigation menu to submit new claims or view your existing claims.
+            </p>
+        </div>
+    </div>
+</div>

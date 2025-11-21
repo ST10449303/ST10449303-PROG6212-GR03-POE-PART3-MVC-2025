@@ -1,0 +1,74 @@
+﻿@model ContractMonthlyClaimSystem.ViewModels.HR.LecturersVM
+
+@{
+    ViewData["Title"] = "Lecturer Management";
+    Layout = "~/Views/Shared/HRLayout.cshtml";
+}
+
+<h2 class="mb-4">@ViewData["Title"]</h2>
+
+<div class="card shadow-sm p-3">
+    <table class="table table-striped table-hover table-responsive data-table">
+        <thead class="table-dark">
+            <tr>
+                <th>Full Name</th>
+                <th>Employee ID</th>
+                <th>Year Level</th>
+                <th>Qualification</th>
+                <th>Faculty</th>
+                <th class="text-center">Total Claims</th>
+                <th class="text-center">Approved Claims</th>
+                <th class="text-center">Total Amount</th>
+                <th class="text-center">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var lecturer in Model.Lecturers)
+            {
+                <tr>
+                    <td>@lecturer.FullName</td>
+                    <td>@lecturer.EmployeeID</td>
+                    <td>@lecturer.YearLevel</td>
+                    <td>@lecturer.QualificationName</td>
+                    <td>@lecturer.Faculty</td>
+                    <td class="text-center">@Model.TotalClaimsPerLecturer.GetValueOrDefault(lecturer.Id, 0)</td>
+                    <td class="text-center">@Model.ApprovedClaimsPerLecturer.GetValueOrDefault(lecturer.Id, 0)</td>
+                    <td class="text-center">@Model.TotalAmountPerLecturer.GetValueOrDefault(lecturer.Id, 0).ToString("C")</td>
+                    <td class="text-center">
+                        <a class="btn btn-sm btn-primary"
+                           href="@Url.Action("EditLecturer", "HR", new { id = lecturer.Id })"
+                           data-bs-toggle="tooltip" data-bs-placement="top"
+                           title="Edit this lecturer">
+                            Edit
+                        </a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            // Initialize DataTables safely
+            $('.data-table').each(function () {
+                if (!$.fn.DataTable.isDataTable(this)) {
+                    $(this).DataTable({
+                        paging: true,
+                        searching: true,
+                        ordering: true,
+                        lengthChange: true,
+                        responsive: true
+                    });
+                }
+            });
+
+            // Enable Bootstrap tooltips
+            var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+            tooltipTriggerList.map(function (tooltipTriggerEl) {
+                return new bootstrap.Tooltip(tooltipTriggerEl);
+            });
+        });
+    </script>
+}

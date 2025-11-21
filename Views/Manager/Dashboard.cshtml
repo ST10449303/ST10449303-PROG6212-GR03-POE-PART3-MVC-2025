@@ -1,0 +1,220 @@
+﻿@model ContractMonthlyClaimSystem.ViewModels.ManagerDashboardVM
+
+@{
+    Layout = "~/Views/Shared/ManagerLayout.cshtml";
+    ViewData["Title"] = "Manager Dashboard";
+}
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light mb-4">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="#">Welcome To Contract Monthly Claim System, Manager</a>
+    </div>
+</nav>
+
+<h2>All Submitted Claims</h2>
+
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success">@TempData["SuccessMessage"]</div>
+}
+@if (TempData["ErrorMessage"] != null)
+{
+    <div class="alert alert-danger">@TempData["ErrorMessage"]</div>
+}
+
+<div class="d-flex flex-wrap align-items-center gap-2 mb-3">
+    <span class="badge bg-info">Verified: @Model.TotalVerified</span>
+    <span class="badge bg-success">Approved: @Model.TotalApproved</span>
+    <span class="badge bg-danger">Rejected: @Model.TotalRejected</span>
+
+    <a asp-action="AutoApprove" class="btn btn-sm btn-primary ms-3">Auto-Approve All Verified</a>
+    <a asp-action="AutoRejectPending" class="btn btn-sm btn-danger ms-2">Auto-Reject All Pending</a>
+</div>
+
+<!-- ========================= VERIFIED CLAIMS ========================= -->
+<h4>Verified Claims (Pending Action)</h4>
+<div class="row row-cols-1 row-cols-md-2 g-4 mb-4">
+    @if (!Model.VerifiedClaims.Any())
+    {
+        <div class="col-12">
+            <div class="alert alert-secondary">No verified claims pending action.</div>
+        </div>
+    }
+    else
+    {
+        foreach (var claim in Model.VerifiedClaims)
+        {
+            <div class="col">
+                <div class="card mb-3 shadow-sm">
+                    <div class="card-header bg-info text-white">@claim.Title - <strong>@claim.Status</strong></div>
+
+                    <div class="card-body">
+                        <!-- Lecturer Info -->
+                        <h6 class="card-subtitle mb-2 text-muted">Lecturer Information</h6>
+                        <p>
+                            <strong>Name:</strong> @claim.FullName<br />
+                            <strong>Employee ID:</strong> @claim.EmployeeID<br />
+                            <strong>Year Level:</strong> @claim.YearLevel<br />
+                            <strong>Qualification:</strong> @claim.QualificationName (@claim.QualificationCode)<br />
+                            <strong>Faculty:</strong> @claim.Faculty
+                        </p>
+
+                        <!-- Module Info -->
+                        <h6 class="card-subtitle mb-2 text-muted">Module Information</h6>
+                        <p>
+                            <strong>Module Name:</strong> @claim.ModuleName<br />
+                            <strong>Module Code:</strong> @claim.ModuleCode
+                        </p>
+
+                        <!-- Claim Details -->
+                        <h6 class="card-subtitle mb-2 text-muted">Claim Details</h6>
+                        <p>
+                            <strong>Hours Worked:</strong> @claim.HoursWorked<br />
+                            <strong>Hourly Rate:</strong> @claim.HourlyRate.ToString("C")<br />
+                            <strong>Total Amount:</strong> @((claim.HoursWorked * claim.HourlyRate).ToString("C"))<br />
+                            <strong>Submitted On:</strong> @claim.DateSubmitted.ToString("dd MMM yyyy")<br />
+                            <strong>Supporting Document:</strong>
+
+                            @if (!string.IsNullOrEmpty(claim.FilePath))
+                            {
+                                <a href="@claim.FilePath" target="_blank" class="btn btn-sm btn-info">View</a>
+                            }
+                            else
+                            {
+                                <span class="text-muted">No file</span>
+                            }
+                        </p>
+
+                        <!-- Progress Bar -->
+                        <div class="progress mb-2">
+                            <div class="progress-bar bg-info" style="width:66%">66%</div>
+                        </div>
+                    </div>
+
+                    <div class="card-footer text-end">
+                        <a class="btn btn-success btn-sm" asp-action="Approve" asp-route-id="@claim.Id">Approve</a>
+                        <a class="btn btn-danger btn-sm" asp-action="Reject" asp-route-id="@claim.Id">Reject</a>
+                    </div>
+                </div>
+            </div>
+        }
+    }
+</div>
+
+<!-- ========================= APPROVED CLAIMS ========================= -->
+<h4>Approved Claims</h4>
+<div class="row row-cols-1 row-cols-md-2 g-4 mb-4">
+    @if (!Model.ApprovedClaims.Any())
+    {
+        <div class="col-12">
+            <div class="alert alert-secondary">No approved claims.</div>
+        </div>
+    }
+    else
+    {
+        foreach (var claim in Model.ApprovedClaims)
+        {
+            <div class="col">
+                <div class="card mb-3 shadow-sm">
+                    <div class="card-header bg-success text-white">@claim.Title - <strong>@claim.Status</strong></div>
+
+                    <div class="card-body">
+                        <h6 class="card-subtitle mb-2 text-muted">Lecturer Information</h6>
+                        <p>
+                            <strong>Name:</strong> @claim.FullName<br />
+                            <strong>Employee ID:</strong> @claim.EmployeeID<br />
+                            <strong>Year Level:</strong> @claim.YearLevel<br />
+                            <strong>Qualification:</strong> @claim.QualificationName (@claim.QualificationCode)<br />
+                            <strong>Faculty:</strong> @claim.Faculty
+                        </p>
+
+                        <h6 class="card-subtitle mb-2 text-muted">Module Information</h6>
+                        <p>
+                            <strong>Module Name:</strong> @claim.ModuleName<br />
+                            <strong>Module Code:</strong> @claim.ModuleCode
+                        </p>
+
+                        <h6 class="card-subtitle mb-2 text-muted">Claim Details</h6>
+                        <p>
+                            <strong>Total Amount:</strong> @((claim.HoursWorked * claim.HourlyRate).ToString("C"))<br />
+                            <strong>Submitted On:</strong> @claim.DateSubmitted.ToString("dd MMM yyyy")<br />
+
+                            @if (!string.IsNullOrEmpty(claim.FilePath))
+                            {
+                                <a href="@claim.FilePath" target="_blank" class="btn btn-sm btn-info">View</a>
+                            }
+                            else
+                            {
+                                <span class="text-muted">No file</span>
+                            }
+                        </p>
+
+                        <div class="progress mb-2">
+                            <div class="progress-bar bg-success" style="width:100%">100%</div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        }
+    }
+</div>
+
+<!-- ========================= REJECTED CLAIMS ========================= -->
+<h4>Rejected Claims</h4>
+<div class="row row-cols-1 row-cols-md-2 g-4 mb-4">
+    @if (!Model.RejectedClaims.Any())
+    {
+        <div class="col-12">
+            <div class="alert alert-secondary">No rejected claims.</div>
+        </div>
+    }
+    else
+    {
+        foreach (var claim in Model.RejectedClaims)
+        {
+            <div class="col">
+                <div class="card mb-3 shadow-sm">
+                    <div class="card-header bg-danger text-white">@claim.Title - <strong>@claim.Status</strong></div>
+
+                    <div class="card-body">
+                        <h6 class="card-subtitle mb-2 text-muted">Lecturer Information</h6>
+                        <p>
+                            <strong>Name:</strong> @claim.FullName<br />
+                            <strong>Employee ID:</strong> @claim.EmployeeID<br />
+                            <strong>Year Level:</strong> @claim.YearLevel<br />
+                            <strong>Qualification:</strong> @claim.QualificationName (@claim.QualificationCode)<br />
+                            <strong>Faculty:</strong> @claim.Faculty
+                        </p>
+
+                        <h6 class="card-subtitle mb-2 text-muted">Module Information</h6>
+                        <p>
+                            <strong>Module Name:</strong> @claim.ModuleName<br />
+                            <strong>Module Code:</strong> @claim.ModuleCode
+                        </p>
+
+                        <h6 class="card-subtitle mb-2 text-muted">Claim Details</h6>
+                        <p>
+                            <strong>Total Amount:</strong> @((claim.HoursWorked * claim.HourlyRate).ToString("C"))<br />
+                            <strong>Submitted On:</strong> @claim.DateSubmitted.ToString("dd MMM yyyy")<br />
+
+                            @if (!string.IsNullOrEmpty(claim.FilePath))
+                            {
+                                <a href="@claim.FilePath" target="_blank" class="btn btn-sm btn-info">View</a>
+                            }
+                            else
+                            {
+                                <span class="text-muted">No file</span>
+                            }
+                        </p>
+
+                        <div class="progress mb-2">
+                            <div class="progress-bar bg-danger" style="width:100%">100%</div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        }
+    }
+</div>

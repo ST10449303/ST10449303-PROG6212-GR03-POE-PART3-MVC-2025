@@ -1,0 +1,102 @@
+﻿@model ContractMonthlyClaimSystem.ViewModels.CoordinatorDashboardVM
+
+@{
+    Layout = "~/Views/Shared/CoordinatorLayout.cshtml";
+    ViewData["Title"] = "All Submitted Claims";
+}
+
+<h2>All Submitted Claims</h2>
+
+<div class="mb-3">
+    <span class="badge bg-warning">Pending: @Model.TotalPending</span>
+    <span class="badge bg-info">Verified: @Model.TotalVerified</span>
+    <span class="badge bg-secondary">Total Claims: @Model.AllClaims.Count()</span>
+</div>
+
+<div class="row row-cols-1 row-cols-md-2 g-4">
+    @foreach (var claim in Model.AllClaims)
+    {
+        var progressPercent = claim.Status switch
+        {
+            "Pending" => 33,
+            "Verified" => 66,
+            "Approved" => 100,
+            "Rejected" => 100,
+            _ => 0
+        };
+
+        var progressColor = claim.Status switch
+        {
+            "Pending" => "bg-warning",
+            "Verified" => "bg-info",
+            "Approved" => "bg-success",
+            "Rejected" => "bg-danger",
+            _ => "bg-secondary"
+        };
+
+        <div class="col">
+            <div class="card mb-3 shadow-sm">
+                <div class="card-header @(progressColor) text-white">
+                    @claim.Title - <strong>@claim.Status</strong>
+                </div>
+                <div class="card-body">
+                    <!-- Lecturer Profile -->
+                    <h6 class="card-subtitle mb-2 text-muted">Lecturer Profile</h6>
+                    <p>
+                        <strong>Name:</strong> @(claim.FullName ?? "Unknown")<br />
+                        <strong>Employee ID:</strong> @claim.EmployeeID<br />
+                        <strong>Year Level:</strong> @claim.YearLevel<br />
+                        <strong>Qualification:</strong> @claim.QualificationName (@claim.QualificationCode)<br />
+                        <strong>Faculty:</strong> @claim.Faculty
+                    </p>
+
+                    <!-- Module Info -->
+                    <h6 class="card-subtitle mb-2 text-muted">Module Information</h6>
+                    <p>
+                        <strong>Module Name:</strong> @claim.ModuleName<br />
+                        <strong>Module Code:</strong> @claim.ModuleCode
+                    </p>
+
+                    <!-- Claim Details -->
+                    <h6 class="card-subtitle mb-2 text-muted">Claim Details</h6>
+                    <p>
+                        <strong>Hours Worked:</strong> @claim.HoursWorked<br />
+                        <strong>Hourly Rate:</strong> @claim.HourlyRate.ToString("C")<br />
+                        <strong>Total Amount:</strong> @claim.TotalAmount.ToString("C")<br />
+                        <strong>Submitted On:</strong> @claim.DateSubmitted.ToString("dd MMM yyyy")<br />
+                        <strong>Supporting Document:</strong>
+                        @if (!string.IsNullOrEmpty(claim.FilePath))
+                        {
+                            <a href="@claim.FilePath" target="_blank" class="btn btn-sm btn-info">View</a>
+                        }
+                        else
+                        {
+                            <span class="text-muted">No file</span>
+                        }
+                    </p>
+
+                    <!-- Progress Bar -->
+                    <div class="progress mb-2">
+                        <div class="progress-bar @(progressColor)"
+                             role="progressbar"
+                             style="width:@progressPercent%"
+                             aria-valuenow="@progressPercent"
+                             aria-valuemin="0"
+                             aria-valuemax="100">
+                            @progressPercent%
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="card-footer text-end">
+                    @if (claim.Status == "Pending")
+                    {
+                        <a class="btn btn-success btn-sm" asp-action="Verify" asp-route-id="@claim.Id">Verify</a>
+                        <a class="btn btn-danger btn-sm" asp-action="Reject" asp-route-id="@claim.Id">Reject</a>
+                    }
+                </div>
+            </div>
+        </div>
+    }
+</div>

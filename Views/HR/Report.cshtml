@@ -1,0 +1,35 @@
+﻿@model ContractMonthlyClaimSystem.ViewModels.HR.ReportVM
+@{
+    Layout = null; // No layout for PDF
+}
+
+<h2>Approved Claims Report</h2>
+<p>Generated on: @Model.GeneratedOn.ToString("dd MMM yyyy HH:mm")</p>
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Lecturer Name</th>
+            <th>Module</th>
+            <th>Module Code</th>
+            <th>Hours Worked</th>
+            <th>Hourly Rate</th>
+            <th>Total Amount</th>
+            <th>Approval Date</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var claim in Model.Claims)
+        {
+            <tr>
+                <td>@claim.LecturerName</td>
+                <td>@claim.ModuleName</td>
+                <td>@claim.ModuleCode</td>
+                <td>@claim.HoursWorked</td>
+                <td>@claim.HourlyRate.ToString("C")</td>
+                <td>@claim.TotalAmount.ToString("C")</td>
+                <td>@claim.ApprovalDate.ToShortDateString()</td>
+            </tr>
+        }
+    </tbody>
+</table>
