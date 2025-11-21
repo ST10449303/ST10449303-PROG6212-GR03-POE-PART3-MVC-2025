@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\kayis\\OneDrive\\Desktop\\ST10449303 PROG6212 CMCS POE PART3 FINAL 2025\\ContractMonthlyClaimSystem\\ContractMonthlyClaimSystem.csproj": {}
+    "C:\\Users\\kayis\\OneDrive\\Desktop\\ST10449303 PROG6212 MVC POE PART3 2025 FINAL\\ContractMonthlyClaimSystem.csproj": {}
   },
   "projects": {
-    "C:\\Users\\kayis\\OneDrive\\Desktop\\ST10449303 PROG6212 CMCS POE PART3 FINAL 2025\\ContractMonthlyClaimSystem\\ContractMonthlyClaimSystem.csproj": {
+    "C:\\Users\\kayis\\OneDrive\\Desktop\\ST10449303 PROG6212 MVC POE PART3 2025 FINAL\\ContractMonthlyClaimSystem.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\kayis\\OneDrive\\Desktop\\ST10449303 PROG6212 CMCS POE PART3 FINAL 2025\\ContractMonthlyClaimSystem\\ContractMonthlyClaimSystem.csproj",
+        "projectUniqueName": "C:\\Users\\kayis\\OneDrive\\Desktop\\ST10449303 PROG6212 MVC POE PART3 2025 FINAL\\ContractMonthlyClaimSystem.csproj",
         "projectName": "ContractMonthlyClaimSystem",
-        "projectPath": "C:\\Users\\kayis\\OneDrive\\Desktop\\ST10449303 PROG6212 CMCS POE PART3 FINAL 2025\\ContractMonthlyClaimSystem\\ContractMonthlyClaimSystem.csproj",
+        "projectPath": "C:\\Users\\kayis\\OneDrive\\Desktop\\ST10449303 PROG6212 MVC POE PART3 2025 FINAL\\ContractMonthlyClaimSystem.csproj",
         "packagesPath": "C:\\Users\\kayis\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\kayis\\OneDrive\\Desktop\\ST10449303 PROG6212 CMCS POE PART3 FINAL 2025\\ContractMonthlyClaimSystem\\obj\\",
+        "outputPath": "C:\\Users\\kayis\\OneDrive\\Desktop\\ST10449303 PROG6212 MVC POE PART3 2025 FINAL\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

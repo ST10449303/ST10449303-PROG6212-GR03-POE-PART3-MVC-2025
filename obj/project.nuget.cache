@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "/wcOV95aDfw=",
+  "dgSpecHash": "mxyOdeuNDSM=",
   "success": true,
-  "projectFilePath": "C:\\Users\\kayis\\OneDrive\\Desktop\\ST10449303 PROG6212 CMCS POE PART3 FINAL 2025\\ContractMonthlyClaimSystem\\ContractMonthlyClaimSystem.csproj",
+  "projectFilePath": "C:\\Users\\kayis\\OneDrive\\Desktop\\ST10449303 PROG6212 MVC POE PART3 2025 FINAL\\ContractMonthlyClaimSystem.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\kayis\\.nuget\\packages\\azure.core\\1.25.0\\azure.core.1.25.0.nupkg.sha512",
     "C:\\Users\\kayis\\.nuget\\packages\\azure.identity\\1.7.0\\azure.identity.1.7.0.nupkg.sha512",
